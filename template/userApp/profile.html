@@ -1,0 +1,97 @@
+{% extends "common.html" %}
+{% block title %} My profile {% endblock title %}
+
+{% block content %}
+{% load static %}
+
+<div class="container mt-5">
+  {% if messages %}
+   <div>
+      {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+              {{ message }}
+          </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+    <div class="row">
+      <!-- Profile Picture Section -->
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body text-center">
+            {% if profile.profile_picture %}
+            <img src="{{profile.profile_picture.url}}" alt="Profile Picture" class="img-fluid rounded-circle mb-3" width="100" >
+            {% else %}
+            <img src="https://via.placeholder.com/150" alt="Profile Picture" class="img-fluid rounded-circle mb-3">
+            {% endif %}
+            <h4>{{profile.user.first_name}}  {{profile.user.last_name}}</h4>
+            <p class="text-muted">{{profile.role}}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Information Section -->
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Profile Information</h4>
+            <p><strong>Email:</strong>{{profile.user.email}}</p>
+            <p><strong>Phone:</strong>{{profile.phone_number}}</p>
+            <p><strong>Location:</strong>{{profile.address}}</p>
+          </div>
+        </div>
+
+        <!-- Tabs for Additional Information -->
+        <div class="card mt-3">
+          <div class="card-body">
+            <ul class="nav nav-tabs" id="profileTab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="about-tab" data-bs-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="true">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url "editProfile" profile.user.id %}" role="tab" aria-controls="contact" aria-selected="false">Edit Profile</a>
+              </li>
+              
+              
+            </ul>
+
+            <div class="tab-content" id="profileTabContent">
+              <!-- About Section -->
+              <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab">
+                <p class="mt-3">{{profile.bio}}</p>
+              </div>
+
+              <!-- Contact Info Section -->
+              <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <ul class="list-group list-group-flush mt-3">
+                  <li class="list-group-item"><strong>Email:</strong> johndoe@example.com</li>
+                  <li class="list-group-item"><strong>Phone:</strong> +1234567890</li>
+                  <li class="list-group-item"><strong>Address:</strong> 123 Main St, New York, USA</li>
+                </ul>
+              </div>
+
+              <!-- Account Settings Section -->
+              <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                <form class="mt-3">
+                  <div class="mb-3">
+                    <label for="password" class="form-label">Change Password</label>
+                    <input type="password" class="form-control" id="password">
+                  </div>
+                  <div class="mb-3">
+                    <label for="email" class="form-label">Update Email</label>
+                    <input type="email" class="form-control" id="email" value="johndoe@example.com">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock content %}

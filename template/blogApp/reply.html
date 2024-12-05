@@ -1,0 +1,27 @@
+{% for comment in comments %}
+    <div>
+        <p>{{ comment.content }} - {{ comment.user }}</p>
+        <p>Replies:</p>
+        
+        <div style="margin-left: 20px;">
+            {% for reply in comment.replies.all %}
+                <div>
+                    <p>{{ reply.content }} - {{ reply.user }}</p>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="reply_id" value="{{ reply.id }}">
+                        <textarea name="content" required></textarea>
+                        <button type="submit">Reply</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="reply_id" value="{{ comment.id }}">
+            <textarea name="content" required></textarea>
+            <button type="submit">Reply</button>
+        </form>
+    </div>
+{% endfor %}

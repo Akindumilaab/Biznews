@@ -1,0 +1,41 @@
+{% extends "common.html" %}
+    {% block title %} all user {% endblock %}
+    {% block content %}
+    {% load static %}
+
+
+
+    <div class="container">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#ID</th>
+                <th scope="col">title</th>
+                <th scope="col">Author</th>
+                <th scope="col">View</th>
+                <th scope="col">approve/disapprove</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              {% for each in allBlog %}  
+              <tr>
+                <th scope="row"> {{each.blog_id }}</th>
+                <td>{{ each.title}}</td>
+                <td>{{ each.author.user.first_name }} {{ each.author.user.last_name }}</td>
+                <td>
+                    <a href="{% url "view-blog" each.blog_id %}">view</a>
+                </td>
+                <td>
+                    {% if each.approved %}
+                    <a href="{% url "approve" each.blog_id %}" class="btn btn-danger">Disapproved</a>
+                    {% else %}
+                    <a href="{% url "approve" each.blog_id%}" class="btn btn-success">Approved</a>
+                    {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+    {% endblock content %}
